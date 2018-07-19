@@ -1,0 +1,62 @@
+1、直接插入排序
+
+    基本思想：
+           当插入第i(i>=1)个元素时，前面的array[0],array[1],…,array[i-1]已经排好 序，此时用array[i]的排序码与array[i-1],array[i-2],…的排序码顺序进行比较，找到插入位置即将array[i]插入，原来位置上的元素顺序后移。
+            元素集合越接近有序，直接插入排序算法的时间效率越高，其时间效率在O(n)与O(n^2)之间。直 接插入排序的空间复杂度为O(1)，它是一种稳定的排序算法。
+
+
+数组：{2   ,5   ,4   ,9   ,3   ,6   ,8   ,7   ,1   ,0}
+
+void InsertSort(int* a, size_t n)
+{
+      for (int i = 1; i < n; i++)
+      {
+            // 若第i个元素大于第i-1个元素，则直接插入，否则需要挪动
+            int end = i - 1;  //end指向有序区间的结束为最后一个元素
+            int tmp = a[i];   //tmp指向你要插入的数字
+            
+            // 开始比较大小搬移元素
+            while (end >= 0 && tmp < a[end])
+            {
+                  a[end + 1] = a[end];
+                  end--;
+            }
+            a[end + 1] = tmp;       
+      }
+}
+
+2、直接插入演变之折半插入（俗称二分查找似插入）
+       折半插入排序（binary insertion sort）是对插入排序算法的一种改进，由于排序算法过程中，就是不断的依次将元素插入前面已排好序的序列中。由于前半部分为已排好序的数列，这样我们不用按顺序依次寻找插入点，可以采用折半查找的方法来加快寻找插入点的速度。
+       折半插入排序算法是一种稳定的排序算法，比直接插入算法明显减少了关键字之间比较的次数，因此速度比直接插入排序算法快，但记录移动的次数没有变，所以折半插入排序算法的时间复杂度仍然为O(n^2)，与直接插入排序算法相同。
+基本思想：
+        定义出left和right给出一段区间，求出mid，看要插入的数tmp和mid比较的大小 ，若
+mid<tmp，则left=mid-1；mid>tmp，则right=mid+1；
+        当left的值都比right大时，此时就需要搬移元素，调整排序了
+
+void BInsertSort(int* a, size_t n)
+{
+      for (int i = 1; i < n; i++)
+      {
+            int left = 0;
+            int right = i - 1;
+            int tmp = a[i];
+            
+            // 查找插入的位置
+            while (left <= right)
+            {
+                  int mid = right + ((left - right) >> 1);
+                  if (a[mid] > tmp)
+                        right = mid - 1;
+                  else
+                        left = mid + 1;
+            }
+            int end = i - 1;
+            // 搬移元素
+            while (end >= left)
+            {
+                  a[end + 1] = a[end];
+                  end--;
+            }
+            a[left] = tmp;
+      }
+}
