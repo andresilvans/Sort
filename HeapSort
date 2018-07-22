@@ -1,0 +1,52 @@
+堆排序（一种不稳定的排序算法）
+1、先创建好堆。升序排列时创建大堆，降序排列时创建小堆
+（1）从后往前建堆
+（2）依次向下调整：
+2、排序（就是让刚才建好的大堆or小堆变得有序起来）。具体过程如下
+（1）把堆顶元素array[0]和堆的最后一个元素交换
+（2）最堆元素个数减一（这样就是为了避开刚交换的元素去调整剩下的元素）
+（3）当交换元素之后，堆肯定会不满足最堆的定义，此次需要调整节点
+
+// 代码如下：
+
+//1、调整堆
+      void AdjustHeap(int array, size_t size, size_t parent)
+      {
+            //标记最大的孩子，默认左孩子最大
+            size_t child = parent * 2 + 1;
+            while (child < size)
+            {
+                  //找左右孩子中最大的孩子
+                  if (child + 1 < size && array[child + 1] > array[child])
+                  {
+                        child = child + 1;
+                  }
+                  //用最大的孩子去检测双亲
+                  if (array[parent] < array[child])
+                  {
+                        swap(array[parent], array[child]);
+                        parent = child;
+                        child = parent * 2 + 1;
+                  }
+                  else
+                        return;
+            }
+      }
+
+//2、堆排序
+      void HeapSort(int* array, size_t size)
+      {
+            //创建堆
+            //倒数第一个非叶子节点的位置
+            int root = (size - 2) / 2;
+            for (; root >= 0; --root)
+            {
+                  AdjustHeap(array, size, root);
+            }
+            //堆排序
+            for (int i = 0; i < size; i++)
+            {
+                  swap(array[0], array[size - i - 1]);
+                  AdjustHeap(array[0], size - i - 1, 0)
+            }
+      }
