@@ -1,0 +1,78 @@
+选择排序（区间在不断地变小 ）
+基本思想：
+       选择排序（Selection sort）是一种简单直观的排序算法。
+   它的工作原理是每一次从待排序的数据元素中选出最小（或最大）的一个元素，存放在序列的起始位置，直到全部待排序的数据元素排完。 
+   （首先，选出最小的数放在第一位，然后选择第二小的数，放在第二位；以此类推，直到所有的数从小到大排列.那么，对于大小为N的数组需要N-1轮选择过程。
+   第i轮选取第i小的数，请将其放在第i个位置上。）
+
+注意点：
+        选择排序与冒泡排序的区别：冒泡排序通过依次交换相邻两个顺序不合法的元素位置，从而将当前最小（大）元素放到合适的位置；
+        而选择排序每遍历一次都记住了当前最小（大）元素的位置，最后仅需一次交换操作即可将其放到合适的位置。
+
+// 选择排序（普通版）
+void selectSort(int* a, size_t n)
+{
+	int maxSpace = n - 1;          //用来存放最大数的位置
+	int i;                         //在找maxpos的一个下标
+	int maxPos;                    //找到的最大数的下标
+
+	for (; maxSpace > 0; maxSpace--)
+	{
+		maxPos = 0;
+		for (i = 0; i <= maxSpace; i++)
+		{
+			if (a[i] > a[maxPos])
+			{
+				maxPos = i;
+			}
+		}
+		int tmp = a[maxSpace];
+		a[maxSpace] = a[maxPos];
+		a[maxPos] = tmp;
+	}
+	
+}
+
+// 选择排序（升级版）
+void Swap(int &a, int &b)
+{
+	int tmp;
+	tmp = a;
+	a = b;
+	b = tmp;
+}
+
+void selectSort_up(int *a, int n)
+{
+	int minSpace = 0;        //（1）用来放最小数的下标；（2）查找的是左区间，闭区间
+	int maxSpace = n - 1;    //（1）用来放最大数的下标；（2）查找的是右区间，闭区间
+	int minPos;             // 区间内找到的最小数的下标
+	int maxPos;             // 区间内找大的最大数的小标
+	int i;                 //  i 为在区间遍历时用到的下标
+
+	while (minSpace < maxSpace)    // 倘若等于了就说明此时只有一个数了
+	{
+		minPos = minSpace;
+		maxPos = maxSpace;
+
+		for (i = minSpace; i <= maxSpace; i++)
+		{
+			if (a[i] > a[maxPos])
+				maxPos = i;
+			if (a[i] < a[minPos])
+				minPos = i;
+		}
+
+		// 此时找到了区间内最大的和最小的，交换两者
+		Swap(a[minSpace], a[minPos]);
+
+		//BUG
+		if (minSpace == maxPos)
+			maxPos = minPos;
+
+		Swap(a[maxSpace], a[maxPos]);
+
+		minSpace++;
+		maxSpace--;
+	}
+}
