@@ -1,0 +1,43 @@
+//方法一：左右下标寻找法
+int partSort1(int* a,int left,int right)
+{
+      int key = a[right];
+      int begin = left;
+      int end = right;   //int end = right-1的反例为：1 2 3 4 5 6 7 8 9
+      while (begin < end)
+      {
+            while (begin <end && a[begin] <= key)  // 从左到右依次寻找比key大的值
+            {
+                  begin++;
+            }
+            while (begin < end && a[end] >= key)   //从右到左依次寻找比key小的值
+            {
+                  end--;
+            }
+            // 找到之后交换
+            if (begin < end)
+                  Swap(a[begin],a[end]);
+      }
+      // begin只会有两个位置：（1）a[begin]>key; （2）a[begin]就是right（key所在的位置）
+      Swap(a[begin], a[right]);
+      // 返回begin；begin就是哨兵数所在的下标
+      return begin;
+}
+void QuickSortRecursion(int* a, int left, int right)
+{
+      //left == right时表示区间内只有一个数；left>right时表示区间内已经没有数了
+      if (left >= right)
+            return;
+      // 排序结束条件：[left,right)之间数目只剩0个或1个
+      // [left, div)这里面的数都比div小
+      // (div, right] 这里面的数都比div大
+      int div = partSort1(a, left, right);
+      
+      QuickSortRecursion(a, left, div - 1);
+      QuickSortRecursion(a, div + 1, right);
+}
+void QuickSort(int *a, size_t n)
+{
+      //递归
+      QuickSortRecursion(a, 0, n - 1);
+}
