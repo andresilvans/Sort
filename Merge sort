@@ -1,0 +1,42 @@
+void merge(int *a,int n)
+{
+        int *tmp=(int *)malloc(sizeof(int)*n)
+        _ mergeSort(a,0,n-1,tmp);       
+
+        free(tmp）;
+}
+
+void merge_sort(int a[],int low, int high, int tmp[])
+{
+    /*
+    if(left>=right)
+        return ;
+    求出mid
+    int mid = (low + high)/2;
+    merge_sort(a,low, mid, tmp);
+    merge_sort(a, mid+1, high, tmp);
+    int begin1 =left;endl=mid;
+    int begin2=mid+1;end2=right;
+    int index = left;
+    while(begin1<=edn1 && begin2<=end2)
+    {
+        if(a[begin1]<a[begin2])
+            tmp[index++]=a[begin1++];
+        else
+              tmp[index++]=a[begin2++];
+    }
+    while(begin1<=end1)
+     {
+        tmp[index++]=a[begin1++];
+     }
+     while(begin2<=end2)
+     {
+        tmp[index++]=a[begin2++];
+     }
+    index = left;
+    while(index<=right)
+    {
+        a[index] = tmp[index];
+        ++index;
+    }
+    */
